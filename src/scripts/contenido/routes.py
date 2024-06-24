@@ -22,8 +22,16 @@ servicio_1_blueprint.add_url_rule(
     methods=["POST"]
 )
 
+
+#------------rutas de contenido----------------------
 servicio_1_blueprint.add_url_rule(
-    "/pokemones",
-    view_func=controllers.crud_pokemones,
+    "/contenidos",
+    view_func=controllers.crud_contenido,
     methods=["GET", "POST"]
+)
+
+servicio_1_blueprint.add_url_rule(
+    "/contenidos/<pk_id_peliculas>",
+    view_func=controllers.crud_contenido,
+    methods=["PUT"]
 )

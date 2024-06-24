@@ -1,6 +1,6 @@
 """ Controladores del servicio 1 """
 
-# pylint: disable-all
+
 
 from flask import request
 import psycopg2
@@ -46,9 +46,11 @@ def endpoint_2():
     return datos_pokemon.datos_organizados
 
 
-def obtener_pokemones():
+#------------------------------tabla_contenido_imdb---------------------
+#----------------------obtener el contenido de la tabla-----------------
+def obtener_contenidos():
     try:
-        results = Query().buscar_pokemones()
+        results = Query().buscar_contenidos()
     except psycopg2.Error as db_error:
         return {
             "msg": f"DB error: {str(db_error)}",
@@ -66,14 +68,18 @@ def obtener_pokemones():
         "obj": results,
     }
 
-def agregar_pokemones():
+
+#------------------------------tabla_contenido_imdb---------------------
+#-----------------------------------agregar contenido---------------------
+def agregar_contenidos():
     try:
+        # datos como un diccionario
         entrada = request.json
     except Exception as exc:
         return {"msg": str(exc), "codigo": 0, "status": False, "obj": {}}
     
     try:
-        Query().agregar_pokemon(entrada.get("id_pokemon"), entrada.get("nombre_pokemon"))
+        Query().agregar_contenido(entrada.get("pk_id_peliculas"), entrada.get("titulo_pelicula"), entrada.get("ano_pelicula"),entrada.get("fk_id_tipo_contenido"),entrada.get("director_pelicula"),entrada.get("valor_pelicula"))
     except psycopg2.Error as db_error:
         return {
             "msg": f"DB error: {str(db_error)}",
@@ -91,9 +97,40 @@ def agregar_pokemones():
         "obj": {},
     }
 
+#------------------------------tabla_contenido_imdb---------------------
+#-----------------------------------agregar contenido---------------------
+def editar_contenidos(pk_id_peliculas):
+    try:
+         # datos como un diccionario
+        entrada = request.json
+    except Exception as exc:
+        return {"msg": str(exc), "codigo": 0, "status": False, "obj": {}}
+    
+    try:
+        Query().editar_contenido(pk_id_peliculas, entrada.get("titulo_pelicula"), entrada.get("ano_pelicula"),entrada.get("fk_id_tipo_contenido"),entrada.get("director_pelicula"),entrada.get("valor_pelicula"))
+    except psycopg2.Error as db_error:
+        return {
+            "msg": f"DB error: {str(db_error)}",
+            "codigo": 0,
+            "status": False,
+            "obj": {},
+        }
+    except Exception as exc:
+        return {"msg": str(exc), "codigo": 0, "status": False, "obj": {}}
 
-def crud_pokemones():
+    return {
+        "msg": "contenido editado satisfactoriamente",
+        "codigo": 0,
+        "status": True,
+        "obj": {},
+    }
+
+#------------------------------tabla_contenido_imdb---------------------
+#----------------------------cued_contenido-----------------------------
+def crud_contenido(pk_id_peliculas=None):
     if request.method == "GET":
-        return obtener_pokemones()
+        return obtener_contenidos()
     if request.method == "POST":
-        return agregar_pokemones()
+        return agregar_contenidos()
+    if request.method == "PUT":
+        return editar_contenidos(pk_id_peliculas)
