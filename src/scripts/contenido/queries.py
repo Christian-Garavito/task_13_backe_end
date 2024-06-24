@@ -12,15 +12,17 @@ class Query(Connection):
         """
         It does nothing.
         """
-        consultas =[]
-        for data in filtros:
-
-
-
-        
-        query = """
-            SELECT x.* FROM public.tabla_contenido_imdb x"
-        """
+        #print("--------------------------------------------------------") 
+        #print(filtros)
+        if filtros :
+            print("hola mundo") 
+            print(filtros)
+            condiciones = [f"{columna} = '{valor}'" for columna, valor in filtros.items()]
+            query = 'SELECT x.* FROM public.tabla_contenido_imdb x'
+            query += ' WHERE ' + ' AND '.join(condiciones)
+            print(query)  
+        else:
+            query = 'SELECT x.* FROM public.tabla_contenido_imdb x'
 
         # contextos de python tema para estudiar
         # el cursor y la conexion solo funciona dentro del with
