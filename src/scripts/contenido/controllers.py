@@ -16,7 +16,7 @@ def obtener_contenidos():
     try:
         # datos como un diccionario
         entrada = request.args
-        print(entrada)
+        #print(entrada)
     except Exception as exc:
         return {"msg": str(exc), "codigo": 0, "status": False, "obj": {}}
     try:
@@ -110,7 +110,13 @@ def crud_contenido(pk_id_peliculas=None):
 #1. obtener tipo_contenido---------------------------------------------------
 def obtener_tipo_contenidos():
     try:
-        results = Query().buscar_tipo_contenido()
+        # datos como un diccionario
+        entrada = request.args
+        #print(entrada)
+    except Exception as exc:
+        return {"msg": str(exc), "codigo": 0, "status": False, "obj": {}}
+    try:
+        results = Query().buscar_tipo_contenido(entrada)
     except psycopg2.Error as db_error:
         return {
             "msg": f"DB error: {str(db_error)}",
@@ -201,7 +207,13 @@ def crud_tipo_contenido(pk_id_tipo_contenido=None):
 #1. obtener tabla_generos---------------------------------------------------
 def obtener_tabla_generos():
     try:
-        results = Query().buscar_tabla_generos()
+        # datos como un diccionario
+        entrada = request.args
+        #print(entrada)
+    except Exception as exc:
+        return {"msg": str(exc), "codigo": 0, "status": False, "obj": {}}
+    try:
+        results = Query().buscar_tabla_generos(entrada)
     except psycopg2.Error as db_error:
         return {
             "msg": f"DB error: {str(db_error)}",
