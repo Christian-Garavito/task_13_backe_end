@@ -15,12 +15,12 @@ class Query(Connection):
         #print("--------------------------------------------------------") 
         #print(filtros)
         if filtros :
-            print("hola mundo") 
-            print(filtros)
+            #print("hola mundo") 
+            #print(filtros)
             condiciones = [f"{columna} = '{valor}'" for columna, valor in filtros.items()]
             query = 'SELECT x.* FROM public.tabla_contenido_imdb x'
             query += ' WHERE ' + ' AND '.join(condiciones)
-            print(query)  
+            #print(query)  
         else:
             query = 'SELECT x.* FROM public.tabla_contenido_imdb x'
 
@@ -66,16 +66,22 @@ class Query(Connection):
                 cursor.execute(query, [titulo_pelicula, ano_pelicula, fk_id_tipo_contenido, director_pelicula, valor_pelicula,pk_id_peliculas])
 
 
+
 # ------------------------tipo_contenido------------------------------------------
 # 1. funcion obtener contenido--------------------------------------------------------------
-    def buscar_tipo_contenido(self):
+    def buscar_tipo_contenido(self,filtros):
         """
         It does nothing.
         """
-
-        query = """
-            SELECT x.* FROM public.tipo_contenido x
-        """
+        if filtros :
+            #print("hola mundo") 
+            #print(filtros)
+            condiciones = [f"{columna} = '{valor}'" for columna, valor in filtros.items()]
+            query = 'SELECT x.* FROM public.tipo_contenido x'
+            query += ' WHERE ' + ' AND '.join(condiciones)
+            #print(query)  
+        else:
+            query = 'SELECT x.* FROM public.tipo_contenido x'
 
         # contextos de python tema para estudiar
         # el cursor y la conexion solo funciona dentro del with
@@ -130,16 +136,23 @@ class Query(Connection):
             with conn.cursor() as cursor:
                 cursor.execute(query, [tipo_contenido, decripcion_contenido , valor_generado,pk_id_tipo_contenido])
 
+
+
 # ------------------------tabla_generos------------------------------------------
 # 1. funcion obtener contenido--------------------------------------------------------------
-    def buscar_tabla_generos(self):
+    def buscar_tabla_generos(self,filtros):
         """
         It does nothing.
         """
-
-        query = """
-           SELECT x.* FROM public.tabla_generos x
-        """
+        if filtros :
+            #print("hola mundo") 
+            #print(filtros)
+            condiciones = [f"{columna} = '{valor}'" for columna, valor in filtros.items()]
+            query = 'SELECT x.* FROM public.tabla_generos x'
+            query += ' WHERE ' + ' AND '.join(condiciones)
+            #print(query)  
+        else:
+            query = 'SELECT x.* FROM public.tabla_generos x'
 
         # contextos de python tema para estudiar
         # el cursor y la conexion solo funciona dentro del with
