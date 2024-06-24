@@ -47,7 +47,7 @@ def endpoint_2():
 
 
 #------------------------------tabla_contenido_imdb---------------------
-#----------------------obtener el contenido de la tabla-----------------
+#----------------------1. obtener el contenido de la tabla-----------------
 def obtener_contenidos():
     try:
         results = Query().buscar_contenidos()
@@ -68,9 +68,8 @@ def obtener_contenidos():
         "obj": results,
     }
 
-
 #------------------------------tabla_contenido_imdb---------------------
-#-----------------------------------agregar contenido---------------------
+#-----------------------------------2. agregar contenido---------------------
 def agregar_contenidos():
     try:
         # datos como un diccionario
@@ -98,7 +97,7 @@ def agregar_contenidos():
     }
 
 #------------------------------tabla_contenido_imdb---------------------
-#-----------------------------------agregar contenido---------------------
+#-----------------------------------3. editar contenido---------------------
 def editar_contenidos(pk_id_peliculas):
     try:
          # datos como un diccionario
@@ -126,7 +125,7 @@ def editar_contenidos(pk_id_peliculas):
     }
 
 #------------------------------tabla_contenido_imdb---------------------
-#----------------------------cued_contenido-----------------------------
+#----------------------------cued contenido-----------------------------
 def crud_contenido(pk_id_peliculas=None):
     if request.method == "GET":
         return obtener_contenidos()
@@ -134,3 +133,98 @@ def crud_contenido(pk_id_peliculas=None):
         return agregar_contenidos()
     if request.method == "PUT":
         return editar_contenidos(pk_id_peliculas)
+    
+
+
+#------------------------------tabla tipo_contenido---------------------
+#----------------------1. obtener tipo_contenido-----------------
+def obtener_tipo_contenidos():
+    try:
+        results = Query().buscar_tipo_contenido()
+    except psycopg2.Error as db_error:
+        return {
+            "msg": f"DB error: {str(db_error)}",
+            "codigo": 0,
+            "status": False,
+            "obj": {},
+        }
+    except Exception as exc:
+        return {"msg": str(exc), "codigo": 0, "status": False, "obj": {}}
+
+    return {
+        "msg": "Consulta satisfactoria",
+        "codigo": 0,
+        "status": True,
+        "obj": results,
+    }
+
+#------------------------------tabla tipo_contenido---------------------
+#-----------------------------------2. agregar  tipo_contenido---------------------
+def agregar_tipo_contenidos():
+    try:
+        # datos como un diccionario
+        entrada = request.json
+    except Exception as exc:
+        return {"msg": str(exc), "codigo": 0, "status": False, "obj": {}}
+    
+    try:
+        Query().agregar_tipo_contenido(entrada.get("pk_id_tipo_contenido"), entrada.get("tipo_contenido"), entrada.get("decripcion_contenido "),entrada.get("valor_generado"))
+    except psycopg2.Error as db_error:
+        return {
+            "msg": f"DB error: {str(db_error)}",
+            "codigo": 0,
+            "status": False,
+            "obj": {},
+        }
+    except Exception as exc:
+        return {"msg": str(exc), "codigo": 0, "status": False, "obj": {}}
+
+    return {
+        "msg": "Se agrego satisfactoriamente",
+        "codigo": 0,
+        "status": True,
+        "obj": {},
+    }
+
+#------------------------------tabla tipo_contenido---------------------
+#-----------------------------------3. editar tipo_contenido---------------------
+def editar_tipo_contenidos(pk_id_tipo_contenido):
+    try:
+         # datos como un diccionario
+        entrada = request.json
+    except Exception as exc:
+        return {"msg": str(exc), "codigo": 0, "status": False, "obj": {}}
+    
+    try:
+        Query().editar_tipo_contenido(pk_id_tipo_contenido, entrada.get("tipo_contenido"), entrada.get("decripcion_contenido "),entrada.get("valor_generado"))
+    except psycopg2.Error as db_error:
+        return {
+            "msg": f"DB error: {str(db_error)}",
+            "codigo": 0,
+            "status": False,
+            "obj": {},
+        }
+    except Exception as exc:
+        return {"msg": str(exc), "codigo": 0, "status": False, "obj": {}}
+
+    return {
+        "msg": "contenido editado satisfactoriamente",
+        "codigo": 0,
+        "status": True,
+        "obj": {},
+    }
+
+#------------------------------tabla tipo_contenido---------------------
+#----------------------------cued tipo_contenido-----------------------------
+def crud_tipo_contenido(pk_id_tipo_contenido=None):
+    if request.method == "GET":
+        return obtener_tipo_contenidos()
+    if request.method == "POST":
+        return agregar_tipo_contenidos()
+    if request.method == "PUT":
+        return editar_tipo_contenidos(pk_id_tipo_contenido)
+
+
+
+
+

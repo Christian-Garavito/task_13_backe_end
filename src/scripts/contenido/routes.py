@@ -35,3 +35,17 @@ servicio_1_blueprint.add_url_rule(
     view_func=controllers.crud_contenido,
     methods=["PUT"]
 )
+
+#------------Ruetas tipo_contenido----------------------
+servicio_1_blueprint.add_url_rule(
+    "/tipo_contenido",
+    view_func=controllers.crud_tipo_contenido,
+    methods=["GET", "POST"]
+)
+
+servicio_1_blueprint.add_url_rule(
+    "/tipo_contenido/<pk_id_tipo_contenido>",
+    view_func=controllers.crud_tipo_contenido,
+    methods=["PUT"]
+)
+
