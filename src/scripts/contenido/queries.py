@@ -8,13 +8,18 @@ class Query(Connection):
 
 # ------------------------tabla_contenido_imdb------------------------------------------
 # 1. funcion obtener contenido--------------------------------------------------------------
-    def buscar_contenidos(self):
+    def buscar_contenidos(self,filtros):
         """
         It does nothing.
         """
+        consultas =[]
+        for data in filtros:
 
+
+
+        
         query = """
-            SELECT x.* FROM public.tabla_contenido_imdb x
+            SELECT x.* FROM public.tabla_contenido_imdb x"
         """
 
         # contextos de python tema para estudiar
@@ -25,24 +30,12 @@ class Query(Connection):
 
                 response = cursor.fetchall()
 
-                #print(response)
-                #print(cursor.description)
-
                 columnas = [columna.name for columna in cursor.description or []]
 
-                # objeto_pk = []
-                # for tupla in response:
-                #     obj = {}
-                #     for index, item in enumerate(tupla):
-                #         obj[columnas[index]] = item
-                #     objeto_pk.append(obj)
                 objeto_contenidos = [
                     {columnas[index]: item for index, item in enumerate(tupla)}
                     for tupla in response
                 ]
-
-                #print(objeto_contenidos)
-
                 return objeto_contenidos
 
 # ------------------------tabla_contenido_imdb------------------------------------------
@@ -112,24 +105,24 @@ class Query(Connection):
 
 # ------------------------tabla tipo_contenido------------------------------------------
 # 2. funcion agregar tipo_contenido--------------------------------------------------------------
-    def agregar_tipo_contenido(self, pk_id_tipo_contenido, tipo_contenido, decripcion_contenido , valor_generado):
+    def agregar_tipo_contenido(self, pk_id_tipo_contenido, tipo_contenido, decripcion_contenido, valor_generado):
         query = """
             INSERT INTO public.tipo_contenido
-            (pk_id_tipo_contenido, tipo_contenido, "decripcion_contenido ", valor_generado)
+            (pk_id_tipo_contenido, tipo_contenido, decripcion_contenido, valor_generado)
             VALUES(%s, %s, %s, %s);
         """
 
         with self._open_connection() as conn:
             with conn.cursor() as cursor:
                 #print(cursor.mogrify(query, [pk_id_peliculas, titulo_pelicula, ano_pelicula, fk_id_tipo_contenido, director_pelicula, valor_pelicula]).decode())
-                cursor.execute(query, [pk_id_tipo_contenido, tipo_contenido, decripcion_contenido , valor_generado])
+                cursor.execute(query, [pk_id_tipo_contenido, tipo_contenido, decripcion_contenido, valor_generado])
 
 # ------------------------tabla tipo_contenido------------------------------------------
 # 3. funcion para editar tipo_contenido--------------------------------------------------------------  
     def editar_tipo_contenido(self, pk_id_tipo_contenido, tipo_contenido, decripcion_contenido , valor_generado):
         query = """
             UPDATE public.tipo_contenido
-            SET tipo_contenido=%s, "decripcion_contenido "=%s, valor_generado=%s WHERE pk_id_tipo_contenido=%s
+            SET tipo_contenido=%s, decripcion_contenido=%s, valor_generado=%s WHERE pk_id_tipo_contenido=%s
             """
         with self._open_connection() as conn:
             with conn.cursor() as cursor:
