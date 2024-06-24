@@ -23,7 +23,7 @@ servicio_1_blueprint.add_url_rule(
 )
 
 
-#------------rutas de contenido----------------------
+#------------Rutas de contenido----------------------
 servicio_1_blueprint.add_url_rule(
     "/contenidos",
     view_func=controllers.crud_contenido,
@@ -36,7 +36,7 @@ servicio_1_blueprint.add_url_rule(
     methods=["PUT"]
 )
 
-#------------Ruetas tipo_contenido----------------------
+#------------Rutas tipo_contenido----------------------
 servicio_1_blueprint.add_url_rule(
     "/tipo_contenido",
     view_func=controllers.crud_tipo_contenido,
@@ -48,4 +48,27 @@ servicio_1_blueprint.add_url_rule(
     view_func=controllers.crud_tipo_contenido,
     methods=["PUT"]
 )
+
+#------------Rutas tabla_generos----------------------
+servicio_1_blueprint.add_url_rule(
+    "/tabla_generos",
+    view_func=controllers.crud_tabla_generos,
+    methods=["GET","POST"]
+)
+
+servicio_1_blueprint.add_url_rule(
+    "/tabla_generos/<pk_genero>",
+    view_func=controllers.crud_tabla_generos,
+    methods=["PUT"]
+)
+
+#------------Rutas union_peliculas_generos----------------------
+servicio_1_blueprint.add_url_rule(
+    "/union_peliculas_generos",
+    view_func=controllers.crud_union_peliculas_generos,
+    methods=["GET","POST"]
+)
+
+
+
 

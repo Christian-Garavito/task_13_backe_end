@@ -135,3 +135,126 @@ class Query(Connection):
             with conn.cursor() as cursor:
                 cursor.execute(query, [tipo_contenido, decripcion_contenido , valor_generado,pk_id_tipo_contenido])
 
+# ------------------------tabla_generos------------------------------------------
+# 1. funcion obtener contenido--------------------------------------------------------------
+    def buscar_tabla_generos(self):
+        """
+        It does nothing.
+        """
+
+        query = """
+           SELECT x.* FROM public.tabla_generos x
+        """
+
+        # contextos de python tema para estudiar
+        # el cursor y la conexion solo funciona dentro del with
+        with self._open_connection() as conn:
+            with conn.cursor() as cursor:
+                cursor.execute(query)
+
+                response = cursor.fetchall()
+
+                #print(response)
+                #print(cursor.description)
+
+                columnas = [columna.name for columna in cursor.description or []]
+
+                # objeto_pk = []
+                # for tupla in response:
+                #     obj = {}
+                #     for index, item in enumerate(tupla):
+                #         obj[columnas[index]] = item
+                #     objeto_pk.append(obj)
+                objeto_contenidos = [
+                    {columnas[index]: item for index, item in enumerate(tupla)}
+                    for tupla in response
+                ]
+
+                #print(objeto_contenidos)
+
+                return objeto_contenidos
+
+# ------------------------tabla tabla_generos------------------------------------------
+# 2. funcion agregar tabla_generos--------------------------------------------------------------
+    def agregar_tabla_genero(self, pk_genero, nombre_genero, descripcion_genero):
+        query = """
+            INSERT INTO public.tabla_generos
+            (pk_genero, nombre_genero, descripcion_genero)
+            VALUES(%s, %s, %s);
+        """
+
+        with self._open_connection() as conn:
+            with conn.cursor() as cursor:
+                #print(cursor.mogrify(query, [pk_id_peliculas, titulo_pelicula, ano_pelicula, fk_id_tipo_contenido, director_pelicula, valor_pelicula]).decode())
+                cursor.execute(query, [pk_genero, nombre_genero, descripcion_genero])
+
+# ------------------------tabla tabla_generos------------------------------------------
+# 3. funcion para editar tabla_generos--------------------------------------------------------------  
+    def editar_tabla_genero(self, pk_genero, nombre_genero, descripcion_genero):
+        query = """
+            UPDATE public.tabla_generos
+            SET nombre_genero=%s, descripcion_genero=%s WHERE pk_genero=%s
+            """
+        with self._open_connection() as conn:
+            with conn.cursor() as cursor:
+                cursor.execute(query, [nombre_genero, descripcion_genero,pk_genero])
+
+
+
+
+# ------------------------tabla union_peliculas_generos------------------------------------------
+# 1. funcion obtener union_peliculas_generos--------------------------------------------------------------
+    def buscar_union_peliculas_generos(self):
+        """
+        It does nothing.
+        """
+
+        query = """
+           SELECT x.* FROM public.union_peliculas_generos x
+        """
+
+        # contextos de python tema para estudiar
+        # el cursor y la conexion solo funciona dentro del with
+        with self._open_connection() as conn:
+            with conn.cursor() as cursor:
+                cursor.execute(query)
+
+                response = cursor.fetchall()
+
+                #print(response)
+                #print(cursor.description)
+
+                columnas = [columna.name for columna in cursor.description or []]
+
+                # objeto_pk = []
+                # for tupla in response:
+                #     obj = {}
+                #     for index, item in enumerate(tupla):
+                #         obj[columnas[index]] = item
+                #     objeto_pk.append(obj)
+                objeto_contenidos = [
+                    {columnas[index]: item for index, item in enumerate(tupla)}
+                    for tupla in response
+                ]
+
+                #print(objeto_contenidos)
+
+                return objeto_contenidos
+
+# ------------------------tabla union_peliculas_generos------------------------------------------
+# 2. funcion agregar union_peliculas_generos--------------------------------------------------------------
+    def agregar_union_peliculas_genero(self, pk_id_peliculas, pk_genero):
+        query = """
+            INSERT INTO public.union_peliculas_generos
+            (pk_id_peliculas, pk_genero)
+            VALUES(%s, %s);
+        """
+
+        with self._open_connection() as conn:
+            with conn.cursor() as cursor:
+                #print(cursor.mogrify(query, [pk_id_peliculas, titulo_pelicula, ano_pelicula, fk_id_tipo_contenido, director_pelicula, valor_pelicula]).decode())
+                cursor.execute(query, [pk_id_peliculas, pk_genero])
+
+
+
+
