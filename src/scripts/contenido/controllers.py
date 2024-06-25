@@ -15,8 +15,11 @@ from .clase_ejemplo import ClaseEjemplo
 def obtener_contenidos():
     try:
         # datos como un diccionario
+        # metodo tiene limites aplicarlos el metodo get no resive booy por eso se usa el args
+        
         entrada = request.args
-        #print(entrada)
+        print("--------------------------------------------------")   
+        print(entrada)
     except Exception as exc:
         return {"msg": str(exc), "codigo": 0, "status": False, "obj": {}}
     try:

@@ -12,17 +12,33 @@ class Query(Connection):
         """
         It does nothing.
         """
+        
+        pagina=0
+        limit=5
+
+        query = 'SELECT x.* FROM public.tabla_contenido_imdb x'
         #print("--------------------------------------------------------") 
-        #print(filtros)
         if filtros :
-            #print("hola mundo") 
-            #print(filtros)
-            condiciones = [f"{columna} = '{valor}'" for columna, valor in filtros.items()]
-            query = 'SELECT x.* FROM public.tabla_contenido_imdb x'
-            query += ' WHERE ' + ' AND '.join(condiciones)
-            #print(query)  
-        else:
-            query = 'SELECT x.* FROM public.tabla_contenido_imdb x'
+            condiciones = []
+            for columna , valor in filtros.items():
+                if columna == "pagina":
+                    pagina = valor
+                    #print(pagina)
+                elif columna == "limit":
+                    limit = valor
+                else:
+                    condiciones.append(f"{columna} = '{valor}'") 
+
+            pagina = int(limit)*(int(pagina)-1)
+            if condiciones:
+                query += ' WHERE ' + ' AND '.join(condiciones)
+
+        # ordenar la tabla
+        #query += " ORDER BY pk_id_peliculas"
+        query += f" ORDER BY pk_id_peliculas OFFSET {pagina} LIMIT {limit}"
+        # pagina la trae como un string y para poderlo perar hay que 
+        # query += f" OFFSET {(paginas-1)*int(limit)} LIMIT {limit}"
+        #print(query)
 
         # contextos de python tema para estudiar
         # el cursor y la conexion solo funciona dentro del with
@@ -69,7 +85,7 @@ class Query(Connection):
 
 # ------------------------tipo_contenido------------------------------------------
 # 1. funcion obtener contenido--------------------------------------------------------------
-    def buscar_tipo_contenido(self,filtros):
+    def buscar_tipo_contenido(self,filtros,pagina=1, limit=10):
         """
         It does nothing.
         """
@@ -77,11 +93,15 @@ class Query(Connection):
             #print("hola mundo") 
             #print(filtros)
             condiciones = [f"{columna} = '{valor}'" for columna, valor in filtros.items()]
-            query = 'SELECT x.* FROM public.tipo_contenido x'
+            query = 'SELECT x.* FROM public.tipo_contenido x '
             query += ' WHERE ' + ' AND '.join(condiciones)
-            #print(query)  
+            print(query)  
         else:
             query = 'SELECT x.* FROM public.tipo_contenido x'
+        
+        # ordenar la tabla
+        query += " ORDER BY pk_id_tipo_contenido"
+        query += f" OFFSET {(pagina - 1) * limit} LIMIT {limit}"
 
         # contextos de python tema para estudiar
         # el cursor y la conexion solo funciona dentro del with
