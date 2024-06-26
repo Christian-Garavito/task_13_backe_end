@@ -13,8 +13,8 @@ class Query(Connection):
         It does nothing.
         """
         
-        pagina=0
-        limit=5
+        pagina=1
+        limit=20
 
         query = 'SELECT x.* FROM public.tabla_contenido_imdb x'
         #print("--------------------------------------------------------") 
@@ -29,9 +29,11 @@ class Query(Connection):
                 else:
                     condiciones.append(f"{columna} = '{valor}'") 
 
-            pagina = int(limit)*(int(pagina)-1)
+            
             if condiciones:
                 query += ' WHERE ' + ' AND '.join(condiciones)
+            
+        pagina = int(limit)*(int(pagina)-1)
 
         # ordenar la tabla
         #query += " ORDER BY pk_id_peliculas"
@@ -89,8 +91,8 @@ class Query(Connection):
         """
         It does nothing.
         """
-        pagina=0
-        limit=5
+        pagina=1
+        limit=20
 
         query = 'SELECT x.* FROM public.tipo_contenido x'
         #print("--------------------------------------------------------") 
@@ -105,10 +107,10 @@ class Query(Connection):
                 else:
                     condiciones.append(f"{columna} = '{valor}'") 
 
-            pagina = int(limit)*(int(pagina)-1)
             if condiciones:
                 query += ' WHERE ' + ' AND '.join(condiciones)
 
+        pagina = int(limit)*(int(pagina)-1)
         # ordenar la tabla
         #query += " ORDER BY pk_id_peliculas"
         query += f" ORDER BY pk_id_tipo_contenido OFFSET {pagina} LIMIT {limit}"
@@ -179,8 +181,8 @@ class Query(Connection):
         """
         It does nothing.
         """
-        pagina=0
-        limit=5
+        pagina=1
+        limit=20
 
         query = 'SELECT x.* FROM public.tabla_generos x'
         #print("--------------------------------------------------------") 
@@ -195,10 +197,10 @@ class Query(Connection):
                 else:
                     condiciones.append(f"{columna} = '{valor}'") 
 
-            pagina = int(limit)*(int(pagina)-1)
             if condiciones:
                 query += ' WHERE ' + ' AND '.join(condiciones)
 
+        pagina = int(limit)*(int(pagina)-1)
         # ordenar la tabla
         #query += " ORDER BY pk_id_peliculas"
         query += f" ORDER BY pk_genero OFFSET {pagina} LIMIT {limit}"
