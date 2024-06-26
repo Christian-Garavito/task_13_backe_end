@@ -12,9 +12,8 @@ class Query(Connection):
         """
         It does nothing.
         """
-        
         pagina=1
-        limit=20
+        limit=5
 
         query = 'SELECT x.* FROM public.tabla_contenido_imdb x'
         #print("--------------------------------------------------------") 
@@ -36,8 +35,7 @@ class Query(Connection):
         pagina = int(limit)*(int(pagina)-1)
 
         # ordenar la tabla
-        #query += " ORDER BY pk_id_peliculas"
-        query += f" ORDER BY pk_id_peliculas OFFSET {pagina} LIMIT {limit}"
+        query += f" ORDER BY pk_id_peliculas OFFSET {pagina} "
         # pagina la trae como un string y para poderlo perar hay que 
         # query += f" OFFSET {(paginas-1)*int(limit)} LIMIT {limit}"
         #print(query)
@@ -48,7 +46,7 @@ class Query(Connection):
             with conn.cursor() as cursor:
                 cursor.execute(query)
 
-                response = cursor.fetchall()
+                response = cursor.fetchmany(int(limit))
 
                 columnas = [columna.name for columna in cursor.description or []]
 
@@ -56,7 +54,7 @@ class Query(Connection):
                     {columnas[index]: item for index, item in enumerate(tupla)}
                     for tupla in response
                 ]
-                return objeto_contenidos
+                return objeto_contenidos,bool(cursor.fetchone())
 
 # ------------------------tabla_contenido_imdb------------------------------------------
 # 2. funcion agregar contenido--------------------------------------------------------------
